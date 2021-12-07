@@ -1,7 +1,7 @@
 # Suspend RDR2
 Quick script to pause and restart Red Dead Redemption 2 process on PC. Specifically used when playing Red Dead Online as it will put you into a temporary solo lobby.
 
-Additionally it will create a Firewall Rule to block specific ports to extend the Solo Lobby indefinately. The Firewall Rule can be enabled/disabled as an optional extra.
+Additionally it will create a Firewall Rule to block specific ports to extend the Solo Lobby indefinitely. The Firewall Rule can be enabled/disabled as an optional extra.
 
 ## Requirements
 1. Download PSTools from https://docs.microsoft.com/en-us/sysinternals/downloads/pstools
