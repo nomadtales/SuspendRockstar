@@ -1,6 +1,16 @@
 ## Variables
 $delay = 10
 
+# Check if Firewall Rule exists
+$FWRule = Get-NetFirewallRule -DisplayName "RDO Solo Lobby"
+
+# If the FireWall Rule does not exist create it
+If (!$FWRule)
+{
+    "Creating new Firewall Rule to block udp on ports 6672, 61455, 61457, 61456, 61458"
+    New-NetFirewallRule -DisplayName "RDO Solo Lobby" -Direction Outbound -Action Block -Protocol UDP -RemotePort 6672,61455,61457,61456,61458 -Confirm
+}
+
 # Create a loop to allow for rerunning
 While ($choice -ne 1)
 {
