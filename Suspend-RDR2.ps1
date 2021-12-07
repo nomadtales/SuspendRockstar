@@ -35,6 +35,7 @@ While ($choice -ne 2)
 
     if ($FWRuleStatus -eq "True") {"FireWall Rule: Enabled"}
     if ($FWRuleStatus -eq "False") {"FireWall Rule: Disabled"}
+    if ($suspendtime) {"RDO last suspended at: $suspendtime"}
 
     # prompt for rerun with a choice
     $title = 'What would you like to do?'
@@ -55,10 +56,9 @@ While ($choice -ne 2)
         if ($ps)
         {
             & 'pssuspend64.exe' -nobanner "$ps"
-            "$(Get-Date -Format "yyyy-MM-dd HH:mm:ss") - RDR2 Paused"
             Start-Sleep -Seconds $delay
             & 'pssuspend64.exe' -r -nobanner "$ps"
-            "$(Get-Date -Format "yyyy-MM-dd HH:mm:ss") - RDR2 Resumed"
+            $suspendtime = Get-Date
         } # End If
 
         # else ignore
