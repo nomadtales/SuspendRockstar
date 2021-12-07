@@ -5,11 +5,10 @@ $delay = 10
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 If (!$currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
 {
-    Write-Warning "Please Run as Administrator"
-    
-
-}
-
+    Write-Warning "Please Run as Administrator. Press any key to exit."
+    $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    exit
+} # End If
 
 # Check if Firewall Rule exists
 $FWRule = Get-NetFirewallRule -DisplayName "RDO Solo Lobby"
@@ -19,7 +18,7 @@ If (!$FWRule)
 {
     "Creating new Firewall Rule to block udp on ports 6672, 61455, 61457, 61456, 61458"
     New-NetFirewallRule -DisplayName "RDO Solo Lobby" -Direction Outbound -Action Block -Protocol UDP -RemotePort 6672,61455,61457,61456,61458 -Confirm
-}
+} # End If
 
 # Create a loop to allow for rerunning
 While ($choice -ne 1)
