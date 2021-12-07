@@ -1,4 +1,4 @@
-# Suspend-RDR2
+# SuspendRDR2
 Quick script to pause and restart Red Dead Redemption 2 process on PC. Specifically used when playing Red Dead Online as it will put you into a temporary solo lobby.
 
 ## Requirements
