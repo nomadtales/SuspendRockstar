@@ -11,13 +11,13 @@ If (!$currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Adminis
 } # End If
 
 # Check if Firewall Rule exists
-$FWRule = Get-NetFirewallRule -DisplayName "RDO Solo Lobby"
+$FWRule = Get-NetFirewallRule -DisplayName "RDO Solo Lobby" -ErrorAction SilentlyContinue
 
 # If the FireWall Rule does not exist create it
 If (!$FWRule)
 {
     "Creating new Firewall Rule to block udp on ports 6672, 61455, 61457, 61456, 61458"
-    New-NetFirewallRule -DisplayName "RDO Solo Lobby" -Direction Outbound -Action Block -Protocol UDP -RemotePort 6672,61455,61457,61456,61458 -Confirm
+    New-NetFirewallRule -DisplayName "RDO Solo Lobby" -Direction Outbound -Action Block -Protocol UDP -RemotePort 6672,61455-61458 -Confirm
 } # End If
 
 # Create a loop to allow for rerunning
