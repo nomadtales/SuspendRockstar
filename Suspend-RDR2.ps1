@@ -33,22 +33,20 @@ While ($choice -ne 2)
     # Check FireWall Rule Status
     $FWRuleStatus = (Get-NetFirewallRule -DisplayName "RDO Solo Lobby").Enabled
 
-    "FireWall Rule Status: $FWRuleStatus"
+    if ($FWRuleStatus -eq "True") {"FireWall Rule: Enabled"}
+    if ($FWRuleStatus -eq "False") {"FireWall Rule: Disabled"}
 
     # prompt for rerun with a choice
     $title = 'What would you like to do?'
-    $rerun = New-Object System.Management.Automation.Host.ChoiceDescription '&Suspend RDO',"Suspend RDO for $delay seconds"
-    $fwswitch = New-Object System.Management.Automation.Host.ChoiceDescription '&FireWall Rule','Start/Stop the Firewall Rule'
-    $exit = New-Object System.Management.Automation.Host.ChoiceDescription '&Exit','Aborts the script'
-    $options = [System.Management.Automation.Host.ChoiceDescription[]] ($rerun,$fwswitch,$exit)
-    
+    $suspend = New-Object System.Management.Automation.Host.ChoiceDescription '&Suspend RDO',"Suspend RDO for $delay seconds"
+    $fwswitch = New-Object System.Management.Automation.Host.ChoiceDescription 'Enable/Disable &FireWall Rule','Start/Stop the Firewall Rule'
+    $exit = New-Object System.Management.Automation.Host.ChoiceDescription '&Exit','Disables the Firewall Rule and Exists'
+    $options = [System.Management.Automation.Host.ChoiceDescription[]] ($suspend,$fwswitch,$exit)
+
     $choice = $host.ui.PromptForChoice($title,$null,$options,0)
 
-    # Quit if Exit selected
-    if ($choice -eq 2) {exit}
-
     # Suspend RDO choice
-    elseif ($choice -eq 0) 
+    if ($choice -eq 0) 
     {
         # Grab the process id of the RDR2 process
         $ps = (Get-Process -Name RDR2 -ErrorAction SilentlyContinue).Id
@@ -70,18 +68,30 @@ While ($choice -ne 2)
     # Start or Stop FireWall Rule choice
     elseif ($choice -eq 1) 
     {
-        # Disable the Firewall
-        If ($FWRuleStatus -eq "Disabled")
+        # Enable the Firewall
+        If ($FWRuleStatus -eq "False")
         {
             Try {Set-NetFirewallRule -DisplayName "RDO Solo Lobby" -Enabled True}
             Catch {Write-Warning "Could not Enable FireWall Rule"}
         } # End If
 
         # Disable the Firewall
-        If ($FWRuleStatus -eq "Enabled")
+        If ($FWRuleStatus -eq "True")
         {
             Try {Set-NetFirewallRule -DisplayName "RDO Solo Lobby" -Enabled False}
             Catch {Write-Warning "Could not Disable FireWall Rule"}
         } # End If
     } # End ElseIf
+
+    # Quit if Exit selected
+    if ($choice -eq 2) 
+    {
+        # Disable the Firewall
+        If ($FWRuleStatus -eq "True")
+        {
+            Try {Set-NetFirewallRule -DisplayName "RDO Solo Lobby" -Enabled False}
+            Catch {Write-Warning "Could not Disable FireWall Rule"}
+        } # End If
+        exit
+    }
 } # End While 
