@@ -1,6 +1,16 @@
 ## Variables
 $delay = 10
 
+# Check if Admin
+$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+If (!$currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+{
+    Write-Warning "Please Run as Administrator"
+    
+
+}
+
+
 # Check if Firewall Rule exists
 $FWRule = Get-NetFirewallRule -DisplayName "RDO Solo Lobby"
 
