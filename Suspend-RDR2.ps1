@@ -26,22 +26,32 @@ Set-NetFirewallRule -DisplayName "RDO Solo Lobby" -Enabled False -ErrorAction Si
 # Create a loop to allow for rerunning
 While ($choice -ne 2)
 {
-
     # Clear the PS Window
     Clear-Host
 
     # Check FireWall Rule Status
     $FWRuleStatus = (Get-NetFirewallRule -DisplayName "RDO Solo Lobby").Enabled
 
-    if ($FWRuleStatus -eq "True") {"FireWall Rule: Enabled"}
-    if ($FWRuleStatus -eq "False") {"FireWall Rule: Disabled"}
+    # Add helpful FireWall text
+    if ($FWRuleStatus -eq "True")
+    {
+        Write-Host "FireWall Rule: " -NoNewline
+        Write-Host "Enabled" -BackgroundColor Green -ForegroundColor Black
+    }
+    elseif ($FWRuleStatus -eq "False")
+    {
+        Write-Host "FireWall Rule: " -NoNewline
+        Write-Host "Disabled" -BackgroundColor Red -ForegroundColor Black
+    }
+
+    # Add text for last Suspend Time
     if ($suspendtime) {"RDO last suspended at: $suspendtime"}
 
     # prompt for rerun with a choice
     $title = 'What would you like to do?'
     $suspend = New-Object System.Management.Automation.Host.ChoiceDescription '&Suspend RDO',"Suspend RDO for $delay seconds"
     $fwswitch = New-Object System.Management.Automation.Host.ChoiceDescription 'Enable/Disable &FireWall Rule','Start/Stop the Firewall Rule'
-    $exit = New-Object System.Management.Automation.Host.ChoiceDescription '&Exit','Disables the Firewall Rule and Exists'
+    $exit = New-Object System.Management.Automation.Host.ChoiceDescription 'E&xit','Disables the Firewall Rule and Exits'
     $options = [System.Management.Automation.Host.ChoiceDescription[]] ($suspend,$fwswitch,$exit)
 
     $choice = $host.ui.PromptForChoice($title,$null,$options,0)
