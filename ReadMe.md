@@ -3,12 +3,14 @@ Quick script to pause and restart Red Dead Redemption 2 process on PC. Specifica
 
 Additionally it will create a Firewall Rule to block specific ports to extend the Solo Lobby indefinitely. The Firewall Rule can be enabled/disabled as an optional extra.
 
+This Project is similar to the [Red Dead Online Solo Lobby Batch Script](https://github.com/PrettyPrintSpaghettiCode/RDO_Solo_Lobby) Project. One uses Batch files and the other PowerShell.
+
 ## Installation
 ### PS Tools
 A once off installation of PS Tools is required.
-1. Download PSTools from https://docs.microsoft.com/en-us/sysinternals/downloads/pstools
+1. Download PSTools from [PsTools](https://docs.microsoft.com/en-us/sysinternals/downloads/pstools)
 2. Unzip into a folder of your choice.
-3. Add the PSTools folder into the Windows Environmental Path (Instructions here https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/).
+3. Add the PSTools folder into the Windows Environmental Path (Instructions [here](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/)).
 
 ### Suspend RDR2
 1. Change PowerShell Execution Policy if not previously done, by starting PowerShell as an Administrator and using `Set-ExecutionPolicy Bypass`.
