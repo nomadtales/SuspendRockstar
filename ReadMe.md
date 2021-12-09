@@ -3,7 +3,7 @@ Quick script to pause and restart Red Dead Redemption 2 process on PC. Specifica
 
 Additionally it will create a Firewall Rule to block specific ports to extend the Solo Lobby indefinitely. The Firewall Rule can be enabled/disabled as an optional extra.
 
-This Project is similar to the [Red Dead Online Solo Lobby Batch Script](https://github.com/PrettyPrintSpaghettiCode/RDO_Solo_Lobby) Project. One uses Batch files and the other PowerShell.
+This Project is similar to the [Red Dead Online Solo Lobby Batch Script](https://github.com/PrettyPrintSpaghettiCode/RDO_Solo_Lobby) Project. One uses Batch files and the other PowerShell. There is nothing to install with this script as it will dynamically pull the source code from GitHub.
 
 ## Installation
 ### PS Tools
