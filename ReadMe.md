@@ -5,6 +5,8 @@ Additionally it will create a Firewall Rule to block specific ports to extend th
 
 This Project is similar to the [Red Dead Online Solo Lobby Batch Script](https://github.com/PrettyPrintSpaghettiCode/RDO_Solo_Lobby) Project. One uses Batch files and the other PowerShell. There is nothing to install with this script as it will dynamically pull the source code from GitHub.
 
+If you are concern by the trust and permissions required, please check the script first and confirm it is not performing any unauthorised actions.
+
 ## Installation
 ### PS Tools
 A once off installation of PS Tools is required.
@@ -13,11 +15,10 @@ A once off installation of PS Tools is required.
 3. Add the PSTools folder into the Windows Environmental Path (Instructions [here](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/)).
 
 ### Suspend RDR2
-1. Change PowerShell Execution Policy if not previously done, by starting PowerShell as an Administrator and using `Set-ExecutionPolicy Bypass`.
-2. Create a new desktop Shortcut.
-3. Add the following to the "Type the location of the item" box: `powershell.exe -command "Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/nomadtales/SuspendRockstar/master/Suspend-Rockstar.ps1' -UseBasicParsing).Content))"`.
-4. Call the Shortcut "RDR2 Suspend" and click *Finish*.
-5. Set the shortcut to permanently Run as Administrator by right-clicking the Shortcut, selecting *Properties*, click on *Advanced*, check the *Run as Administrator* box.
+1. Create a new Desktop Shortcut.
+2. Add the following to the "Type the location of the item" box: `powershell.exe -ExecutionPolicy Bypass -Command "icm -Command ([ScriptBlock]::Create((iwr -Uri 'https://raw.githubusercontent.com/nomadtales/SuspendRockstar/master/Suspend-Rockstar.ps1' -UseBasicParsing).Content))"`.
+3. Call the Shortcut "Rockstar Suspend" and click *Finish*.
+4. Set the shortcut to permanently Run as Administrator by right-clicking the Shortcut, selecting *Properties*, click on *Advanced*, check the *Run as Administrator* box.
 
 ## Usage
 - When starting the script it will try and create the FireWall Rule the first time. Enter on *Y* to Confirm creation.
