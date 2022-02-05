@@ -72,7 +72,11 @@ While ($choice -ne 2)
         } # End If
 
         # else ignore
-        else {"$(Get-Date -Format "yyyy-MM-dd HH:mm:ss") - GTAV/RDR2 Not Running"}
+        else 
+        {
+            "$(Get-Date -Format "yyyy-MM-dd HH:mm:ss") - GTAV/RDR2 Not Running"
+            Start-Sleep -Seconds 5
+        }
     } # End ElseIf
 
     # Start or Stop FireWall Rule choice
