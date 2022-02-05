@@ -60,7 +60,7 @@ While ($choice -ne 2)
     if ($choice -eq 0) 
     {
         # Grab the process id of the GTAV/RDR2 process
-        $ps = (Get-Process | Where-Object Name -match "GTAV|RDR2" -ErrorAction SilentlyContinue).Id
+        $ps = (Get-Process | Where-Object Name -match "GTA5|RDR2" -ErrorAction SilentlyContinue).Id
 
         # Suspend for delay time if process is running
         if ($ps)
