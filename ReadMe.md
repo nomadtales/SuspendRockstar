@@ -16,7 +16,11 @@ A once off installation of PS Tools is required.
 
 ### Suspend RDR2
 1. Create a new Desktop Shortcut.
-2. Add the following to the "Type the location of the item" box: `powershell.exe -ExecutionPolicy Bypass -Command "icm -Command ([ScriptBlock]::Create((iwr -Uri 'https://raw.githubusercontent.com/nomadtales/SuspendRockstar/master/Suspend-Rockstar.ps1' -UseBasicParsing).Content))"`.
+2. Add either of the following to the "Type the location of the item" box (pwsh.exe if installed):
+#### PowerShell 5.1 (PowerShell.exe)
+`powershell.exe -ExecutionPolicy Bypass -Command "icm -Command ([ScriptBlock]::Create((iwr -Uri 'https://raw.githubusercontent.com/nomadtales/SuspendRockstar/master/Suspend-Rockstar.ps1' -UseBasicParsing).Content))"`
+#### PowerShell 7 (PwSh.exe)
+`pwsh.exe -ExecutionPolicy Bypass -Command "icm -Command ([ScriptBlock]::Create((iwr -Uri 'https://raw.githubusercontent.com/nomadtales/SuspendRockstar/master/Suspend-Rockstar.ps1' -UseBasicParsing).Content))"`
 3. Call the Shortcut "Rockstar Suspend" and click *Finish*.
 4. Set the shortcut to permanently Run as Administrator by right-clicking the Shortcut, selecting *Properties*, click on *Advanced*, check the *Run as Administrator* box.
 
