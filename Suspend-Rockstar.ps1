@@ -85,14 +85,14 @@ While ($choice -ne 2)
         # Enable the Firewall
         If ($FWRuleStatus -eq "False")
         {
-            Try {Set-NetFirewallRule -DisplayName "GTAO/RDO Solo Lobby" -Enabled True}
+            Try {Set-NetFirewallRule -DisplayName "Rockstar Solo Lobby" -Enabled True}
             Catch {Write-Warning "Could not Enable FireWall Rule"}
         } # End If
 
         # Disable the Firewall
         If ($FWRuleStatus -eq "True")
         {
-            Try {Set-NetFirewallRule -DisplayName "GTAO/RDO Solo Lobby" -Enabled False}
+            Try {Set-NetFirewallRule -DisplayName "Rockstar Solo Lobby" -Enabled False}
             Catch {Write-Warning "Could not Disable FireWall Rule"}
         } # End If
     } # End ElseIf
@@ -103,7 +103,7 @@ While ($choice -ne 2)
         # Disable the Firewall
         If ($FWRuleStatus -eq "True")
         {
-            Try {Set-NetFirewallRule -DisplayName "GTAO/RDO Solo Lobby" -Enabled False}
+            Try {Set-NetFirewallRule -DisplayName "Rockstar Solo Lobby" -Enabled False}
             Catch {Write-Warning "Could not Disable FireWall Rule"}
         } # End If
         exit
