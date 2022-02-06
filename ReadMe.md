@@ -28,7 +28,7 @@ A once off installation of PS Tools is required.
 
 ## Usage
 - When starting the script it will try and create the FireWall Rule the first time. Enter on *Y* to Confirm creation.
-- Once started either type *S* to Suspend GTAO or RDR2 for 10 seconds or *F* to enable the FireWall Rule.
+- Once started either type *S* to Suspend GTA5 or RDR2 for 10 seconds or *F* to enable the FireWall Rule.
 - Only Enable the FireWall Rule once you are in a Session, otherwise you will not be able to connect to a game.
 
 ![Screen Capture](ScreenCap.png)
