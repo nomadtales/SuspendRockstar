@@ -16,7 +16,7 @@ A once off installation of PS Tools is required.
 
 ### Suspend RDR2
 1. Create a new Desktop Shortcut.
-2. Add either of the following commands below to the "Type the location of the item" box. Use pwsh.exe if installed.
+2. Add either of the following commands below to the *Type the location of the item* box. Use pwsh.exe if installed.
 3. Call the Shortcut "Rockstar Suspend" and click *Finish*.
 4. Set the shortcut to permanently Run as Administrator by right-clicking the Shortcut, selecting *Properties*, click on *Advanced*, check the *Run as Administrator* box.
 
