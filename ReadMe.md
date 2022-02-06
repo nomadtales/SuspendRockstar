@@ -14,7 +14,7 @@ A once off installation of PS Tools is required.
 2. Unzip into a folder of your choice.
 3. Add the PSTools folder into the Windows Environmental Path (Instructions [here](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/)).
 
-### Suspend RDR2
+### Suspend Rockstar Shortcut
 1. Create a new **Desktop Shortcut**.
 2. Add either of the following commands below to the *Type the location of the item* box. Use **pwsh.exe** if installed.
 3. Call the Shortcut **Suspend Rockstar** and click *Finish*.
