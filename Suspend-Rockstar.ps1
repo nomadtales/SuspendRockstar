@@ -74,6 +74,7 @@ While ($choice -ne 2)
         # else ignore
         else 
         {
+            Clear-Host
             "$(Get-Date -Format "yyyy-MM-dd HH:mm:ss") - GTAV/RDR2 Not Running"
             Start-Sleep -Seconds 5
         } # End else
