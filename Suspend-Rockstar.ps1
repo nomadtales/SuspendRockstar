@@ -1,7 +1,6 @@
 ## Variables
 $delay = 10
 $nicdelay = 30
-$choice = $null
 
 # Check if Admin
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -30,6 +29,9 @@ While ($choice -ne 4)
 {
     # Clear the PS Window
     Clear-Host
+
+    # Resetting choice
+    $choice = $null
 
     # Check FireWall Rule Status
     $FWRuleStatus = (Get-NetFirewallRule -DisplayName "Rockstar Solo Lobby").Enabled
