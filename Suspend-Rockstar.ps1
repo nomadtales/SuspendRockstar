@@ -1,7 +1,7 @@
 ## Variables
 $delay = 10
 $nicdelay = 30
-Clear-Variable -Name "choice"
+$choice = $null
 
 # Check if Admin
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
