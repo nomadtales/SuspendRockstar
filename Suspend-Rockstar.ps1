@@ -1,5 +1,7 @@
 ## Variables
 $delay = 10
+$nicdelay = 30
+Clear-Variable -Name "choice"
 
 # Check if Admin
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -24,7 +26,7 @@ If (!$FWRule)
 Set-NetFirewallRule -DisplayName "Rockstar Solo Lobby" -Enabled False -ErrorAction SilentlyContinue
 
 # Create a loop to allow for rerunning
-While ($choice -ne 3)
+While ($choice -ne 4)
 {
     # Clear the PS Window
     Clear-Host
@@ -68,11 +70,12 @@ While ($choice -ne 3)
 
     # prompt for rerun with a choice
     $title = 'What would you like to do?'
-    $suspend = New-Object System.Management.Automation.Host.ChoiceDescription '&Suspend GTAO/RDO',"Suspend GTAO/RDO for $delay seconds"
+    $suspend = New-Object System.Management.Automation.Host.ChoiceDescription "&Suspend GTAO/RDO",'Suspend GTAO/RDO for $delay seconds'
     $fwswitch = New-Object System.Management.Automation.Host.ChoiceDescription "$FWPrompt &FireWall Rule",'Start/Stop the Firewall Rule'
     $nicswitch = New-Object System.Management.Automation.Host.ChoiceDescription "$NICPrompt &Physical NIC",'Enable/Disable Physical NIC'
-    $exit = New-Object System.Management.Automation.Host.ChoiceDescription 'E&xit','Disables the Firewall Rule and Exits'
-    $options = [System.Management.Automation.Host.ChoiceDescription[]] ($suspend,$fwswitch,$nicswitch,$exit)
+    $nicreset = New-Object System.Management.Automation.Host.ChoiceDescription "Suspend Physical &NIC",'Suspend GTAO/RDO for $nicdelay seconds'
+    $exit = New-Object System.Management.Automation.Host.ChoiceDescription "E&xit",'Disables the Firewall Rule and Exits'
+    $options = [System.Management.Automation.Host.ChoiceDescription[]] ($suspend,$fwswitch,$nicswitch,$nicreset,$exit)
 
     $choice = $host.ui.PromptForChoice($title,$null,$options,0)
 
@@ -107,14 +110,20 @@ While ($choice -ne 3)
         If ($FWRuleStatus -eq "False")
         {
             Try {Set-NetFirewallRule -DisplayName "Rockstar Solo Lobby" -Enabled True}
-            Catch {Write-Warning "Could not Enable FireWall Rule"}
+            Catch {
+                Write-Warning "Could not Enable FireWall Rule"
+                Start-Sleep -Seconds 5
+            }
         } # End If
 
         # Disable the Firewall
         If ($FWRuleStatus -eq "True")
         {
             Try {Set-NetFirewallRule -DisplayName "Rockstar Solo Lobby" -Enabled False}
-            Catch {Write-Warning "Could not Disable FireWall Rule"}
+            Catch {
+                Write-Warning "Could not Disable FireWall Rule"
+                Start-Sleep -Seconds 5
+            }
         } # End If
     } # End ElseIf
 
@@ -125,21 +134,42 @@ While ($choice -ne 3)
         If ($NICStatus -eq "Up")
         {
             Try {Get-NetAdapter -Physical | Where-Object status -eq up | Disable-NetAdapter -Confirm:$false}
-            Catch {Write-Warning "Could not Disable NIC"}
-            Start-Sleep -Seconds 5
+            Catch {
+                Write-Warning "Could not Disable NIC"
+                Start-Sleep -Seconds 5
+            }
+            
         } # End If
 
         # Enable the NIC
         If ($NICStatus -eq "Disabled")
         {
             Try {Get-NetAdapter -Physical | Where-Object status -eq Disabled | Enable-NetAdapter -Confirm:$false}
-            Catch {Write-Warning "Could not Enable NIC"}
-            Start-Sleep -Seconds 5
+            Catch {
+                Write-Warning "Could not Enable NIC"
+                Start-Sleep -Seconds 5
+            }
+            
         } # End If
     } # End ElseIf
 
-    # Quit if Exit selected
+    # Rest the NIC choice
     elseif ($choice -eq 3) 
+    {
+        Try {Get-NetAdapter -Physical | Where-Object status -eq up | Disable-NetAdapter -Confirm:$false}
+        Catch {Write-Warning "Could not Disable NIC"}
+        Write-Warning "Pausing for NIC restart"
+        Start-Sleep -Seconds $nicdelay
+        Try {Get-NetAdapter -Physical | Where-Object status -eq Disabled | Enable-NetAdapter -Confirm:$false}
+        Catch {
+            Write-Warning "Could not Enable NIC"
+            Start-Sleep -Seconds 5
+        }
+
+    } # End ElseIf
+
+    # Quit if Exit selected
+    elseif ($choice -eq 4) 
     {
         # Disable the Firewall
         If ($FWRuleStatus -eq "True")
