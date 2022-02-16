@@ -1,6 +1,9 @@
 ## Variables
 $delay = 10
-$nicdelay = 30
+$nicdelay = 20
+
+# Resetting choice
+$choice = $null
 
 # Check if Admin
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -29,9 +32,6 @@ While ($choice -ne 4)
 {
     # Clear the PS Window
     Clear-Host
-
-    # Resetting choice
-    $choice = $null
 
     # Check FireWall Rule Status
     $FWRuleStatus = (Get-NetFirewallRule -DisplayName "Rockstar Solo Lobby").Enabled
@@ -155,7 +155,7 @@ While ($choice -ne 4)
         } # End If
     } # End ElseIf
 
-    # Rest the NIC choice
+    # Reset the NIC choice
     elseif ($choice -eq 3) 
     {
         Try {Get-NetAdapter -Physical | Where-Object status -eq up | Disable-NetAdapter -Confirm:$false}
