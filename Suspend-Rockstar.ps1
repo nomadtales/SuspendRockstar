@@ -28,7 +28,7 @@ If (!$FWRule)
 Set-NetFirewallRule -DisplayName "Rockstar Solo Lobby" -Enabled False -ErrorAction SilentlyContinue
 
 # Create a loop to allow for rerunning
-While ($choice -ne 4)
+While ($choice -ne 3)
 {
     # Clear the PS Window
     Clear-Host
