@@ -136,38 +136,38 @@ While ($choice -ne 4)
         If ($NICStatus -eq "Up")
         {
             Try {Get-NetAdapter -Physical | Where-Object status -eq up | Disable-NetAdapter -Confirm:$false}
-            Catch {
-                Write-Warning "Could not Disable NIC"
-                Start-Sleep -Seconds 5
-            }
-            
+            Catch {Write-Warning "Could not Disable NIC"}
         } # End If
 
         # Enable the NIC
         If ($NICStatus -eq "Disabled")
         {
             Try {Get-NetAdapter -Physical | Where-Object status -eq Disabled | Enable-NetAdapter -Confirm:$false}
-            Catch {
-                Write-Warning "Could not Enable NIC"
-                Start-Sleep -Seconds 5
-            }
-            
+            Catch {Write-Warning "Could not Enable NIC"}
+
+        # delay to allow NIC status to refresh
+        Start-Sleep -Seconds 5
         } # End If
     } # End ElseIf
 
     # Reset the NIC choice
     elseif ($choice -eq 3) 
     {
+        # Disable the NIC
         Try {Get-NetAdapter -Physical | Where-Object status -eq up | Disable-NetAdapter -Confirm:$false}
         Catch {Write-Warning "Could not Disable NIC"}
+
+        # notify user of pause
+        Clear-Host
         Write-Warning "Pausing $nicdelay seconds for NIC restart"
         Start-Sleep -Seconds $nicdelay
-        Try {Get-NetAdapter -Physical | Where-Object status -eq Disabled | Enable-NetAdapter -Confirm:$false}
-        Catch {
-            Write-Warning "Could not Enable NIC"
-            Start-Sleep -Seconds 5
-        }
 
+        # enable the NIC
+        Try {Get-NetAdapter -Physical | Where-Object status -eq Disabled | Enable-NetAdapter -Confirm:$false}
+        Catch {Write-Warning "Could not Enable NIC"}
+
+        # delay to allow NIC status to refresh
+        Start-Sleep -Seconds 5
     } # End ElseIf
 
     # Quit if Exit selected
