@@ -72,12 +72,13 @@ While ($choice -ne 4)
 
     # prompt for rerun with a choice
     $title = 'What would you like to do?'
-    $suspend = New-Object System.Management.Automation.Host.ChoiceDescription "&Suspend GTAO/RDO",'Suspend GTAO/RDO for $delay seconds'
+    $suspend = New-Object System.Management.Automation.Host.ChoiceDescription "&Suspend GTAO/RDO ($delay sec)","Suspend GTAO/RDO for $delay seconds"
     $fwswitch = New-Object System.Management.Automation.Host.ChoiceDescription "$FWPrompt &FireWall Rule",'Start/Stop the Firewall Rule'
-    $nicswitch = New-Object System.Management.Automation.Host.ChoiceDescription "$NICPrompt &Physical NIC",'Enable/Disable Physical NIC'
-    $nicreset = New-Object System.Management.Automation.Host.ChoiceDescription "Suspend Physical &NIC",'Suspend GTAO/RDO for $nicdelay seconds'
+    #$nicswitch = New-Object System.Management.Automation.Host.ChoiceDescription "$NICPrompt &Physical NIC",'Enable/Disable Physical NIC'
+    $nicreset = New-Object System.Management.Automation.Host.ChoiceDescription "Suspend Physical &NIC ($nicdelay sec)","Suspend any Physical NIC(s) for $nicdelay seconds"
     $exit = New-Object System.Management.Automation.Host.ChoiceDescription "E&xit",'Disables the Firewall Rule and Exits'
-    $options = [System.Management.Automation.Host.ChoiceDescription[]] ($suspend,$fwswitch,$nicswitch,$nicreset,$exit)
+    #$options = [System.Management.Automation.Host.ChoiceDescription[]] ($suspend,$fwswitch,$nicswitch,$nicreset,$exit)
+    $options = [System.Management.Automation.Host.ChoiceDescription[]] ($suspend,$fwswitch,$nicreset,$exit)
 
     $choice = $host.ui.PromptForChoice($title,$null,$options,0)
 
@@ -129,6 +130,7 @@ While ($choice -ne 4)
         } # End If
     } # End ElseIf
 
+<#
     # Enable or Disable the NIC choice
     elseif ($choice -eq 2) 
     {
@@ -149,9 +151,10 @@ While ($choice -ne 4)
         Start-Sleep -Seconds 5
         } # End If
     } # End ElseIf
+#>
 
-    # Reset the NIC choice
-    elseif ($choice -eq 3) 
+    # Suspend the NIC choice
+    elseif ($choice -eq 2) 
     {
         # Disable the NIC
         Try {Get-NetAdapter -Physical | Where-Object status -eq up | Disable-NetAdapter -Confirm:$false}
@@ -171,7 +174,7 @@ While ($choice -ne 4)
     } # End ElseIf
 
     # Quit if Exit selected
-    elseif ($choice -eq 4) 
+    elseif ($choice -eq 3) 
     {
         # Disable the Firewall
         If ($FWRuleStatus -eq "True")
