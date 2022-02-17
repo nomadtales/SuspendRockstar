@@ -160,7 +160,7 @@ While ($choice -ne 4)
     {
         Try {Get-NetAdapter -Physical | Where-Object status -eq up | Disable-NetAdapter -Confirm:$false}
         Catch {Write-Warning "Could not Disable NIC"}
-        Write-Warning "Pausing for NIC restart"
+        Write-Warning "Pausing $nicdelay seconds for NIC restart"
         Start-Sleep -Seconds $nicdelay
         Try {Get-NetAdapter -Physical | Where-Object status -eq Disabled | Enable-NetAdapter -Confirm:$false}
         Catch {
