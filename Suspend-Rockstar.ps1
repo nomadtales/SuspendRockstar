@@ -1,6 +1,6 @@
 ## Variables
 $delay = 10
-$nicdelay = 20
+$nicdelay = 15
 
 # Resetting choice
 $choice = $null
@@ -72,13 +72,11 @@ While ($choice -ne 3)
 
     # prompt for rerun with a choice
     $title = 'What would you like to do?'
+    $nicreset = New-Object System.Management.Automation.Host.ChoiceDescription "Suspend Physical &NIC ($nicdelay sec)","Suspend any Physical NIC(s) for $nicdelay seconds"
     $suspend = New-Object System.Management.Automation.Host.ChoiceDescription "&Suspend GTAO/RDO ($delay sec)","Suspend GTAO/RDO for $delay seconds"
     $fwswitch = New-Object System.Management.Automation.Host.ChoiceDescription "$FWPrompt &FireWall Rule",'Start/Stop the Firewall Rule'
-    #$nicswitch = New-Object System.Management.Automation.Host.ChoiceDescription "$NICPrompt &Physical NIC",'Enable/Disable Physical NIC'
-    $nicreset = New-Object System.Management.Automation.Host.ChoiceDescription "Suspend Physical &NIC ($nicdelay sec)","Suspend any Physical NIC(s) for $nicdelay seconds"
     $exit = New-Object System.Management.Automation.Host.ChoiceDescription "E&xit",'Disables the Firewall Rule and Exits'
-    #$options = [System.Management.Automation.Host.ChoiceDescription[]] ($suspend,$fwswitch,$nicswitch,$nicreset,$exit)
-    $options = [System.Management.Automation.Host.ChoiceDescription[]] ($suspend,$fwswitch,$nicreset,$exit)
+    $options = [System.Management.Automation.Host.ChoiceDescription[]] ($nicreset,$suspend,$fwswitch,$exit)
 
     $choice = $host.ui.PromptForChoice($title,$null,$options,0)
 
@@ -129,29 +127,6 @@ While ($choice -ne 3)
             }
         } # End If
     } # End ElseIf
-
-<#
-    # Enable or Disable the NIC choice
-    elseif ($choice -eq 2) 
-    {
-        # Disable the NIC
-        If ($NICStatus -eq "Up")
-        {
-            Try {Get-NetAdapter -Physical | Where-Object status -eq up | Disable-NetAdapter -Confirm:$false}
-            Catch {Write-Warning "Could not Disable NIC"}
-        } # End If
-
-        # Enable the NIC
-        If ($NICStatus -eq "Disabled")
-        {
-            Try {Get-NetAdapter -Physical | Where-Object status -eq Disabled | Enable-NetAdapter -Confirm:$false}
-            Catch {Write-Warning "Could not Enable NIC"}
-
-        # delay to allow NIC status to refresh
-        Start-Sleep -Seconds 5
-        } # End If
-    } # End ElseIf
-#>
 
     # Suspend the NIC choice
     elseif ($choice -eq 2) 
