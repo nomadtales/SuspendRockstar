@@ -80,8 +80,28 @@ While ($choice -ne 3)
 
     $choice = $host.ui.PromptForChoice($title,$null,$options,0)
 
-    # Suspend RDO choice
+    # Suspend the NIC choice
     if ($choice -eq 0) 
+    {
+        # Disable the NIC
+        Try {Get-NetAdapter -Physical | Where-Object status -eq up | Disable-NetAdapter -Confirm:$false}
+        Catch {Write-Warning "Could not Disable NIC"}
+
+        # notify user of pause
+        Clear-Host
+        Write-Warning "Pausing $nicdelay seconds for NIC restart"
+        Start-Sleep -Seconds $nicdelay
+
+        # enable the NIC
+        Try {Get-NetAdapter -Physical | Where-Object status -eq Disabled | Enable-NetAdapter -Confirm:$false}
+        Catch {Write-Warning "Could not Enable NIC"}
+
+        # delay to allow NIC status to refresh
+        Start-Sleep -Seconds 5
+    } # End ElseIf
+
+    # Suspend RDO choice
+    elseif ($choice -eq 1) 
     {
         # Grab the process id of the GTAV/RDR2 process
         $ps = (Get-Process | Where-Object Name -match "^GTA5|^RDR2" -ErrorAction SilentlyContinue).Id
@@ -105,7 +125,7 @@ While ($choice -ne 3)
     } # End ElseIf
 
     # Start or Stop FireWall Rule choice
-    elseif ($choice -eq 1) 
+    elseif ($choice -eq 2) 
     {
         # Enable the Firewall
         If ($FWRuleStatus -eq "False")
@@ -126,26 +146,6 @@ While ($choice -ne 3)
                 Start-Sleep -Seconds 5
             }
         } # End If
-    } # End ElseIf
-
-    # Suspend the NIC choice
-    elseif ($choice -eq 2) 
-    {
-        # Disable the NIC
-        Try {Get-NetAdapter -Physical | Where-Object status -eq up | Disable-NetAdapter -Confirm:$false}
-        Catch {Write-Warning "Could not Disable NIC"}
-
-        # notify user of pause
-        Clear-Host
-        Write-Warning "Pausing $nicdelay seconds for NIC restart"
-        Start-Sleep -Seconds $nicdelay
-
-        # enable the NIC
-        Try {Get-NetAdapter -Physical | Where-Object status -eq Disabled | Enable-NetAdapter -Confirm:$false}
-        Catch {Write-Warning "Could not Enable NIC"}
-
-        # delay to allow NIC status to refresh
-        Start-Sleep -Seconds 5
     } # End ElseIf
 
     # Quit if Exit selected
